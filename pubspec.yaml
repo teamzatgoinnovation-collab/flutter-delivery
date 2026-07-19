@@ -21,7 +21,7 @@ dependencies:
   permission_handler: ^12.0.1
   flutter_local_notifications: ^19.4.0
   zatgo_dart_sdk:
-    path: ../../SharedSDK/dart_sdk
+    path: ../../../SharedSDK/dart_sdk
 
 dev_dependencies:
   flutter_test:

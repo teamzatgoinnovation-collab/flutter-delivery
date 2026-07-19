@@ -24,6 +24,13 @@ Assigned → Rejected
 - Hive cache + outbox for offline prep
 - Session prefs (base URL + last user hint)
 
+## Dependency
+
+```yaml
+zatgo_dart_sdk:
+  path: ../../../SharedSDK/dart_sdk
+```
+
 ## Run
 
 ```bash
