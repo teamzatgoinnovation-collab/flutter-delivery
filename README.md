@@ -36,7 +36,7 @@ zatgo_dart_sdk:
 ```bash
 cd Clients/flutter/delivery
 flutter pub get
-flutter run --dart-define=FRAPPE_BASE_URL=http://127.0.0.1:8082
+flutter run --dart-define=FRAPPE_BASE_URL=https://erp.zatgo.online
 ```
 
 Sign in with the courier ERPNext login from POS → Couriers.
