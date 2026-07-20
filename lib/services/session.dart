@@ -9,7 +9,7 @@ class DeliverySession extends ChangeNotifier {
   DeliverySession() {
     final base = const String.fromEnvironment(
       'FRAPPE_BASE_URL',
-      defaultValue: 'https://erp.zatgo.online',
+      defaultValue: 'https://demo.zatgo.online',
     );
     baseUrl = base.replaceAll(RegExp(r'/$'), '');
     Future.microtask(_hydratePrefs);
@@ -17,7 +17,7 @@ class DeliverySession extends ChangeNotifier {
 
   final ErpnextSessionStore store = ErpnextSessionStore();
 
-  String baseUrl = 'https://erp.zatgo.online';
+  String baseUrl = 'https://demo.zatgo.online';
   String? user;
   String? fullName;
   String? lastError;
