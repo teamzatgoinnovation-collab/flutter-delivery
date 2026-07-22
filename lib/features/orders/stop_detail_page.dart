@@ -66,7 +66,7 @@ class _StopDetailPageState extends ConsumerState<StopDetailPage> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
         children: [
           Text(stop.customerName, style: theme.textTheme.headlineSmall),
           const SizedBox(height: 4),
@@ -75,7 +75,14 @@ class _StopDetailPageState extends ConsumerState<StopDetailPage> {
             const SizedBox(height: 4),
             Text(stop.phone!, style: theme.textTheme.bodyMedium),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
+          Text(
+            'Contact & navigation',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -131,7 +138,14 @@ class _StopDetailPageState extends ConsumerState<StopDetailPage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
+          Text(
+            'Order details',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -151,13 +165,18 @@ class _StopDetailPageState extends ConsumerState<StopDetailPage> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           if (!done &&
               stop.status != StopStatus.failed &&
               stop.status != StopStatus.rejected &&
               stop.status != StopStatus.cancelled) ...[
-            Text('Update status', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
+            Text(
+              'Update status',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 10),
             Wrap(
               spacing: 8,
               runSpacing: 8,

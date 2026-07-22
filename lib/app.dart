@@ -96,7 +96,9 @@ class DeliveryApp extends ConsumerWidget {
     final router = ref.watch(_routerProvider);
     return MaterialApp.router(
       title: 'ZatGo Delivery',
-      theme: buildDeliveryTheme(),
+      theme: buildDeliveryTheme(brightness: Brightness.light),
+      darkTheme: buildDeliveryTheme(brightness: Brightness.dark),
+      themeMode: ThemeMode.system,
       routerConfig: router,
       scaffoldMessengerKey: deliveryMessengerKey,
       debugShowCheckedModeBanner: false,

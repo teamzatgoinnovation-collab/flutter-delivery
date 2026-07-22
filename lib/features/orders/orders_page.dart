@@ -42,7 +42,8 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
         onRefresh: () =>
             ref.read(deliveryControllerProvider.notifier).refresh(),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
           children: [
             if (offline)
               const Card(
@@ -52,7 +53,8 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
                   title: Text('Offline — cached list'),
                 ),
               ),
-            if (loadError != null)
+            if (offline) const SizedBox(height: 10),
+            if (loadError != null) ...[
               Card(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.55),
                 child: Padding(
@@ -60,6 +62,8 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
                   child: Text(loadError),
                 ),
               ),
+              const SizedBox(height: 10),
+            ],
             TextField(
               controller: _search,
               decoration: const InputDecoration(
@@ -68,7 +72,7 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
               ),
               onChanged: (_) => setState(() {}),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -97,12 +101,38 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             if (stops.isEmpty)
-              const Card(
+              Card(
                 child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Text('No stops match this filter.'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 32,
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.route_outlined,
+                        size: 40,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'No stops match',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Try another filter or clear the search.',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             else
@@ -111,19 +141,31 @@ class _OrdersPageState extends ConsumerState<OrdersPage> {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Card(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
                       leading: CircleAvatar(
                         backgroundColor: theme.colorScheme.primaryContainer,
                         foregroundColor: theme.colorScheme.onPrimaryContainer,
-                        child: Text('${stop.sequence}'),
+                        child: Text(
+                          '${stop.sequence}',
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ),
-                      title: Text(stop.customerName),
-                      subtitle: Text(
-                        '${stop.orderNumber}\n'
-                        '${stop.address} · ${stop.windowLabel}',
+                      title: Text(
+                        stop.customerName,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          '${stop.orderNumber}\n'
+                          '${stop.address} · ${stop.windowLabel}',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                            height: 1.35,
+                          ),
+                        ),
                       ),
                       isThreeLine: true,
                       trailing: StatusChip(status: stop.status),

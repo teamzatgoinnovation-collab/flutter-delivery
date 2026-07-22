@@ -39,7 +39,8 @@ class TodayPage extends ConsumerWidget {
         onRefresh: () =>
             ref.read(deliveryControllerProvider.notifier).refresh(),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
           children: [
             if (offline)
               Card(
@@ -51,6 +52,7 @@ class TodayPage extends ConsumerWidget {
                   subtitle: Text('Cached stops · sync when online'),
                 ),
               ),
+            if (offline) const SizedBox(height: 16),
             Text(
               'Driver run',
               style: theme.textTheme.labelLarge?.copyWith(
@@ -58,7 +60,7 @@ class TodayPage extends ConsumerWidget {
                 letterSpacing: 0.4,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(route.routeName, style: theme.textTheme.headlineSmall),
             const SizedBox(height: 4),
             Text(
@@ -68,7 +70,7 @@ class TodayPage extends ConsumerWidget {
               ),
             ),
             if (ref.watch(livePollingProvider)) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Text(
                 'Live · checking for new orders every 12s',
                 style: theme.textTheme.labelMedium?.copyWith(
@@ -77,7 +79,7 @@ class TodayPage extends ConsumerWidget {
               ),
             ],
             if (loadError != null) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               Card(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.55),
                 child: Padding(
@@ -91,7 +93,7 @@ class TodayPage extends ConsumerWidget {
                 ),
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -126,7 +128,7 @@ class TodayPage extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -170,14 +172,77 @@ class TodayPage extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Text('Next stop', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            if (next == null)
-              const Card(
+            const SizedBox(height: 24),
+            Text(
+              'Next stop',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 10),
+            if (stops.isEmpty)
+              Card(
                 child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text('All stops complete for this route.'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 28,
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.inbox_outlined,
+                        size: 40,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'No stops yet',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Pull down to refresh when orders are assigned.',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else if (next == null)
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 24,
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 36,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'All stops complete',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Nice work — this route is finished.',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             else

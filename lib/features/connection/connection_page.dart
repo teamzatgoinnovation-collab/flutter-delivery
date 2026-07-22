@@ -29,6 +29,8 @@ class _ConnectionPageState extends ConsumerState<ConnectionPage> {
   Widget build(BuildContext context) {
     final session = ref.watch(deliverySessionProvider);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -43,24 +45,40 @@ class _ConnectionPageState extends ConsumerState<ConnectionPage> {
             Text(
               'ERPNext session. Sign in with site email and password.',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: scheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 16),
-            Card(
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: scheme.surface.withValues(alpha: isDark ? 0.92 : 0.95),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: scheme.outlineVariant.withValues(alpha: 0.55),
+                ),
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      'Session',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
                       session.connected
                           ? 'Signed in as ${session.fullName ?? session.user}'
                           : 'Not signed in',
+                      style: theme.textTheme.bodyLarge,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     Wrap(
                       spacing: 8,
+                      runSpacing: 8,
                       children: [
                         FilledButton(
                           onPressed: _busy

@@ -80,7 +80,7 @@ class _TrackingPageState extends ConsumerState<TrackingPage> {
         actions: const [SignOutAction()],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
         children: [
           Row(
             children: [
@@ -100,21 +100,27 @@ class _TrackingPageState extends ConsumerState<TrackingPage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Auto share while on this tab'),
-            subtitle: const Text('Every 45s (foreground only)'),
-            value: _auto,
-            onChanged: _busy ? null : _toggleAuto,
+          const SizedBox(height: 16),
+          Card(
+            child: SwitchListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 4,
+              ),
+              title: const Text('Auto share while on this tab'),
+              subtitle: const Text('Every 45s (foreground only)'),
+              value: _auto,
+              onChanged: _busy ? null : _toggleAuto,
+            ),
           ),
+          const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: _busy ? null : _share,
             icon: const Icon(Icons.my_location),
             label: Text(_busy ? 'Sharing…' : 'Share my location'),
           ),
           if (_message != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Text(
               _message!,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -122,14 +128,45 @@ class _TrackingPageState extends ConsumerState<TrackingPage> {
               ),
             ),
           ],
-          const SizedBox(height: 20),
-          Text('Recent pings', style: theme.textTheme.titleMedium),
-          const SizedBox(height: 8),
+          const SizedBox(height: 24),
+          Text(
+            'Recent pings',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
           if (pings.isEmpty)
-            const Card(
+            Card(
               child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text('No location shared yet.'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 28,
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.location_off_outlined,
+                      size: 36,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'No location shared yet',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Share once or enable auto share to start tracking.',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           else
@@ -137,6 +174,10 @@ class _TrackingPageState extends ConsumerState<TrackingPage> {
               return Card(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
                   leading: CircleAvatar(
                     backgroundColor: theme.colorScheme.secondaryContainer,
                     child: Text(
