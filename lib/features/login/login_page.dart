@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,8 +16,12 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage>
     with SingleTickerProviderStateMixin {
-  final _usr = TextEditingController();
-  final _pwd = TextEditingController();
+  final _usr = TextEditingController(
+    text: kDebugMode ? 'Administrator' : '',
+  );
+  final _pwd = TextEditingController(
+    text: kDebugMode ? 'admin' : '',
+  );
   bool _busy = false;
   bool _obscure = true;
   late final AnimationController _enter;
