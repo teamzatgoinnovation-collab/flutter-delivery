@@ -24,6 +24,8 @@ class AppShell extends ConsumerWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
+        height: 72,
+        elevation: 0,
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: _onTap,
         destinations: [
